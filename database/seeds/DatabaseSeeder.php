@@ -13,9 +13,6 @@ class DatabaseSeeder extends Seeder
     public function run() {
         Model::unguard();
         $this->call(UsersTableSeeder::class);
-        $this->call(CategoriesTableSeeder::class);
-        $this->call(CitiesTableSeeder::class);
-        $this->call(JobsTableSeeder::class);
         Model::reguard();
     }
 }

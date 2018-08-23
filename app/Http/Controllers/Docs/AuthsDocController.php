@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Docs;
 
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-abstract class AuthsDocController extends BaseController
+abstract class AuthsDocController extends Controller
 {
     /**
      * @SWG\Post(path="/auth/login",

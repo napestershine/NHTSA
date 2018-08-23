@@ -27,19 +27,4 @@ class UsersController extends UsersDocController
             \Auth::guard()->user()->oauthAcessTokens()->delete();
         }
     }
-
-    /**
-     * Get User's recent orders
-     *
-     * @param $id
-     * @return JsonResponse
-     */
-    public function getUserJobs($id): JsonResponse {
-        $user = User::find($id);
-        if (empty($user)) {
-            return response()->json('User not found', 404);
-        }
-        $orders = $user->orders()->orderBy('created_at', 'desc')->get();
-        return response()->json($orders, 200);
-    }
 }
