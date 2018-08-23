@@ -1,0 +1,786 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Handcraft API",
+        "description": "This lists all the api for the front end UI",
+        "contact": {
+            "email": "codeistalk@gmail.com"
+        },
+        "license": {
+            "name": "Private license",
+            "url": ""
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/api/v1/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login",
+                "description": "This can only be done by the registered user.",
+                "operationId": "loginUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User Email Address",
+                        "required": true,
+                        "type": "string",
+                        "format": "email"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "User Password",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register user",
+                "description": "This can only be done by the guest user.",
+                "operationId": "registerUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Register(Create) new user object",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/User"
+                                },
+                                {
+                                    "properties": {
+                                        "role": {
+                                            "type": "string",
+                                            "format": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "List of all the categories",
+                "description": "List of all the categories in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Creates a new category with given input array",
+                "description": "Store a new category in database.",
+                "operationId": "createCategory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Category object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get Category Information",
+                "description": "Get Category Information by Category ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Category Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Updated category",
+                "description": "Update Category. This can only be done by the logged in user.",
+                "operationId": "updateCategory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Category ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated category object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Category ID supplied"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Delete category",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteCategory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Category ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Category ID supplied"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            }
+        },
+        "/cities": {
+            "get": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "List of all the cities",
+                "description": "List of all the cities in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "Creates a new city with given input array",
+                "description": "Store a new city in database.",
+                "operationId": "createCity",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "City object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/City"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/cities/{id}": {
+            "get": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "Get City Information",
+                "description": "Get City Information by City ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/City"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "City Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "Updated city",
+                "description": "Update City. This can only be done by the logged in user.",
+                "operationId": "updateCity",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the City ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated city object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/City"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid City ID supplied"
+                    },
+                    "404": {
+                        "description": "City not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "Delete city",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteCity",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The City ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid City ID supplied"
+                    },
+                    "404": {
+                        "description": "City not found"
+                    }
+                }
+            }
+        },
+        "/jobs": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "List of all the jobs",
+                "description": "List of all the jobs in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Creates a new job with given input array",
+                "description": "Store a new job in database.",
+                "operationId": "createJobs",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Jobs object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Job"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/jobs/{id}": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Get Jobs Information",
+                "description": "Get Jobs Information by Jobs ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Jobs ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Job"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Jobs Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Updated job",
+                "description": "Update Jobs. This can only be done by the logged in user.",
+                "operationId": "updateJobs",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Jobs ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated job object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Job"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Jobs ID supplied"
+                    },
+                    "404": {
+                        "description": "Jobs not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Delete job",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteJobs",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Jobs ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Jobs ID supplied"
+                    },
+                    "404": {
+                        "description": "Jobs not found"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User Information",
+                "description": "Get User Information by User ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    }
+                }
+            }
+        },
+        "/users/{id}/orders": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User Orders Information",
+                "description": "Get User Orders Information by User ID.",
+                "operationId": "userOrders",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    }
+                }
+            }
+        },
+        "/upload": {
+            "post": {
+                "tags": [
+                    "Image Upload"
+                ],
+                "summary": "Uploads a new image in server date wise",
+                "description": "Store a new image in public directory.",
+                "operationId": "uploadImage",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "image file to upload",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Category": {
+            "required": [
+                "name",
+                "uid"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the Category.",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "The uid identifier for the Category.",
+                    "type": "integer"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "The image logo of the Category.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Category"
+            }
+        },
+        "City": {
+            "required": [
+                "name",
+                "zip"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the City.",
+                    "type": "string"
+                },
+                "zip": {
+                    "description": "The zip code of the City.",
+                    "type": "integer"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "City"
+            }
+        },
+        "Job": {
+            "required": [
+                "title",
+                "description",
+                "execution",
+                "user_id",
+                "category_id",
+                "city_id"
+            ],
+            "properties": {
+                "title": {
+                    "description": "The name of the Job.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "The description of the Job.",
+                    "type": "string"
+                },
+                "execution": {
+                    "description": "The execution of the Job.",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "The status of the Job.",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "The user identifier for the job.",
+                    "type": "integer"
+                },
+                "category_id": {
+                    "description": "The category identifier for the job.",
+                    "type": "integer"
+                },
+                "city_id": {
+                    "description": "The city identifier for the job.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Job"
+            }
+        },
+        "User": {
+            "required": [
+                "name",
+                "email",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the user.",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "The contact phone of the user.",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "The email address of the user.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "The password of the user.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "User"
+            }
+        }
+    },
+    "securityDefinitions": {
+        "passport": {
+            "type": "oauth2",
+            "flow": "password",
+            "tokenUrl": "/ oauth/token",
+            "scopes": {}
+        }
+    },
+    "externalDocs": {
+        "description": "More information can be added here",
+        "url": ""
+    }
+}
