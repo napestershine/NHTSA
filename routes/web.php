@@ -4,6 +4,8 @@ $router->get('/', function () use ($router) {
     return response()->json('Welcome', 200);
 });
 
+$router->get('/gtest', 'APIController@gtest');
+
 $router->group(['prefix' => 'api/v1/'], function () use ($router) {
 
     $router->group(['prefix' => 'auth', 'namespace' => 'Auth'], function () use ($router) {
